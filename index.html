@@ -1,0 +1,44 @@
+<html>
+<title>Firebase with OpenAI</title>
+<body>
+  <!--   Requires JQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script>
+  var functionUrl = "https://test-vcmhtiajkq-uc.a.run.app"; // this is an example url.
+    
+	$(document).ready(function() {
+		callOpenAI();
+	});
+
+	function callOpenAI() {
+		var query = "Say Hello in 10 different languages";
+		var prompt = encodeURI(query);
+    var urlBuilder = functionUrl + "?prompt=" + prompt;
+    fetch(urlBuilder).then(function (response) {
+      // The API call was successful!
+      return response.json();
+    }).then(function (data) {
+      // This is the JSON from our response
+      let obj = buildResponse(data);
+      doSomething(obj);
+    }).catch(function (err) {
+      // There was an error
+      console.warn('Something went wrong.', err);
+    });
+	}
+    function buildResponse(data) {
+  			let response = data.responses;
+  			let stringBuilder = "";
+  			for(let x = 0; x < response.length; x++) {
+  				let content = response[x].choices[0].delta.content;
+  				stringBuilder += content;
+  			}
+        return stringBuilder;
+    }
+    function doSomething(response) {
+      // Do something with the response string here
+      console.log(response);
+    }
+  </script>
+</body>
+</html>
