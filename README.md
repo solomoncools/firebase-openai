@@ -1,18 +1,22 @@
 # firebase-openai
 A easy to use codebase for hosting a openai server on firebase and interacting with it using javascript fetch. This solution is cheaper than using heroku.
 
-Requirements
-i. Firebase account
-ii. OpenAI API key
-iii. A couple bucks
+**Requirements**
+1. Node.js
+2. npm
+3. Firebase account
+4. OpenAI API key
+5. A couple bucks
+
+**Instructions**
 
 1. First create a new firebase project using your chosen command line interface:
 
-npm install -g firebase-tools
+- npm install -g firebase-tools
 
-firebase init
+- firebase init
 
-enable functions and hosting
+- enable functions and hosting
 
 2. Install OpenAI
 
