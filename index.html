@@ -14,13 +14,15 @@ function callOpenAI() {
 	var query = "Say Hello in 10 different languages";
 	var prompt = encodeURI(query);
 	var urlBuilder = functionUrl + "?prompt=" + prompt;
+	console.log("Querying OpenAI ... please wait");
 	fetch(urlBuilder).then(function (response) {
-	      // The API call was successful!
-	      return response.json();
+		// The API call was successful!
+		console.log("Query successful ... processing output");
+		return response.json();
 	}).then(function (data) {
-	      // This is the JSON from our response
-	      let obj = buildResponse(data);
-	      doSomething(obj);
+		// This is the JSON from our response
+		let obj = buildResponse(data);
+		doSomething(obj);
 	}).catch(function (err) {
 		// There was an error
 		console.warn('Something went wrong.', err);
