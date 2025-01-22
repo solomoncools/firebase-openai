@@ -4,44 +4,72 @@
   <!--   Requires JQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-var functionUrl = "https://test-vcmhtiajkq-uc.a.run.app"; // this is an example url.
-
 $(document).ready(function() {
-	callOpenAI();
+	let textprompt = "Say hello in 10 different languages";
+	OpenAI_TEXT(textprompt, (response) => {
+		console.log(response);
+	});
+	let imageprompt = "Generate an image which represents Hello World";
+	OpenAI_TEXT(imageprompt, (data) => {
+		// the response is returned as a base64 encoded image
+		var base64encodedimage = data.response;
+		console.log(base64encodedimage);
+	});
 });
 
-function callOpenAI() {
-	var query = "Say Hello in 10 different languages";
+function OpenAI_TEXT(q, callback) {
+	var functionUrl = "https://text-kcahtvskkq-uc.a.run.app";
+	var query = q;
 	var prompt = encodeURI(query);
 	var urlBuilder = functionUrl + "?prompt=" + prompt;
-	console.log("Querying OpenAI ... please wait");
+	console.log("Querying OpenAI for text ... please wait");
 	fetch(urlBuilder).then(function (response) {
-		// The API call was successful!
-		console.log("Query successful ... processing output");
-		return response.json();
+    		// The API call was successful!
+		console.log("Text query successful ... processing output");
+    		return response.json();
 	}).then(function (data) {
-		// This is the JSON from our response
-		let obj = buildResponse(data);
-		doSomething(obj);
+    		// This is the JSON from our response
+		console.log(data);
+		let response = buildResponse(data);
+		callback(response);
 	}).catch(function (err) {
-		// There was an error
-		console.warn('Something went wrong.', err);
+    		// There was an error
+    		console.warn('Something went wrong.', err);
 	});
 }
-  
-function buildResponse(data) {
-	let response = data.responses;
-	let stringBuilder = "";
-	for(let x = 0; x < response.length; x++) {
-		let content = response[x].choices[0].delta.content;
-		stringBuilder += content;
+	function buildResponse(data) {
+		let response = data.responses;
+		let stringBuilder = "";
+		for(let x = 0; x < response.length; x++) {
+			let obj = response[x].choices[0].delta;
+			if(!Object.hasOwn(obj, "content")) {
+				continue;
+			}
+			let content = obj.content;
+			stringBuilder += content;
+		}
+		return stringBuilder;
 	}
-	return stringBuilder;
-}
-  
-function doSomething(response) {
-	// Do something with the response string here
-	console.log(response);
+
+function OpenAI_IMAGE(q, callback) {
+	var functionUrl = "https://image-mcvhtiqjka-uc.a.run.app";
+	var query = q;
+	var prompt = encodeURI(query);
+	var urlBuilder = functionUrl + "?prompt=" + prompt;
+	console.log("Querying OpenAI for image ... please wait");
+	fetch(urlBuilder).then(function (response) {
+    		// The API call was successful!
+		console.log("Image query successful ... processing output");
+    		return response.json();
+	}).then(function (data) {
+    		// This is the JSON from our response
+		console.log(data);
+		let response = data;
+		callback(response);
+	}).catch(function (err) {
+    		// There was an error
+    		console.warn('Something went wrong.', err);
+	});
 }
 </script>
 </body>
