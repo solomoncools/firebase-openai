@@ -1,5 +1,6 @@
 # firebase-openai
 A easy to use codebase for hosting a openai server on firebase and interacting with it using javascript fetch. This solution is better and cheaper than using heroku.
+Includes functions for text prompts and image generation
 
 **Requirements**
 1. Node.js
