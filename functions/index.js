@@ -12,9 +12,13 @@ exports.text = functions.https.onRequest({cors: true}, async (req, res) => {
   });
   const query = decodeURI(req.query.prompt);
   const stream = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: "chatgpt-4o-latest",
     messages: [{role: "user", content: query}],
     stream: true,
+    temperature: 0.7,
+    top_p: 1.0,
+    frequency_penalty: 0.1,
+    presence_penalty: 0.2,
   });
   const responses = [];
   for await (const chunk of stream) {
